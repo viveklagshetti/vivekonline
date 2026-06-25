@@ -66,7 +66,7 @@ function Navbar({ active, setActive }) {
             <button
               key={l}
               onClick={() => handleNav(l)}
-              className={`text-sm font-medium transition-all duration-200 hover:text-emerald-400 relative group ${
+              className={`text-sm font-medium transition-all duration-200 hover:text-emerald-400 cursor-pointer relative group ${
                 active === l ? "text-emerald-400" : "text-gray-400"
               }`}
             >
@@ -196,7 +196,7 @@ function Hero() {
                   .getElementById("projects")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              className="bg-gradient-to-r from-emerald-500 to-emerald-400 text-black font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-all hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-0.5"
+              className="bg-gradient-to-r cursor-pointer from-emerald-500 to-emerald-400 text-black font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition-all hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-0.5"
             >
               View My Work
             </button>
@@ -206,7 +206,7 @@ function Hero() {
                   .getElementById("contact")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              className="border border-violet-500/50 text-violet-300 font-semibold px-6 py-3 rounded-xl hover:bg-violet-500/10 transition-all hover:-translate-y-0.5"
+              className="border cursor-pointer border-violet-500/50 text-violet-300 font-semibold px-6 py-3 rounded-xl hover:bg-violet-500/10 transition-all hover:-translate-y-0.5"
             >
               Get In Touch
             </button>
@@ -217,7 +217,7 @@ function Hero() {
             {[
               ["2+", "Years"],
               ["2", "Startups"],
-              ["15+", "Projects"],
+              ["5+", "Projects"],
               ["∞", "Curiosity"],
             ].map(([n, l]) => (
               <div key={l} className="text-center">
@@ -295,9 +295,9 @@ const skillGroups = [
     color: "from-cyan-500 to-blue-500",
     skills: [
       { name: "React.js", level: 92 },
-      { name: "Next.js", level: 78 },
+      { name: "Next.js", level: 30 },
       { name: "JavaScript (ES6+)", level: 90 },
-      { name: "TypeScript", level: 72 },
+      { name: "TypeScript", level: 30 },
       { name: "Tailwind CSS", level: 88 },
       { name: "HTML/CSS", level: 95 },
     ],
@@ -310,7 +310,7 @@ const skillGroups = [
       { name: "Node.js", level: 85 },
       { name: "Express.js", level: 88 },
       { name: "REST APIs", level: 90 },
-      { name: "GraphQL", level: 65 },
+      { name: "GraphQL", level: 30 },
       { name: "JWT / Auth", level: 82 },
       { name: "WebSockets", level: 70 },
     ],
@@ -322,10 +322,10 @@ const skillGroups = [
     skills: [
       { name: "MongoDB", level: 87 },
       { name: "Mongoose", level: 85 },
-      { name: "PostgreSQL", level: 65 },
+      { name: "PostgreSQL", level: 30 },
       { name: "Redis", level: 58 },
-      { name: "AWS (S3, EC2)", level: 62 },
-      { name: "Docker", level: 68 },
+      { name: "AWS (S3, EC2)", level: 30 },
+      { name: "Docker", level: 30 },
     ],
   },
   {
@@ -334,8 +334,8 @@ const skillGroups = [
     color: "from-pink-500 to-rose-500",
     skills: [
       { name: "Git / GitHub", level: 92 },
-      { name: "Agile / Scrum", level: 80 },
-      { name: "CI/CD", level: 65 },
+      { name: "Agile / Scrum", level: 30 },
+      { name: "CI/CD", level: 30 },
       { name: "Postman", level: 88 },
       { name: "Figma", level: 60 },
       { name: "Linux/CLI", level: 75 },
@@ -400,36 +400,6 @@ function Skills() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Tech pill cloud */}
-        <div className="mt-12 text-center">
-          <p className="text-gray-500 text-sm mb-4 font-mono">
-            // Also familiar with
-          </p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {[
-              "Zustand",
-              "Redux",
-              "Socket.io",
-              "Stripe",
-              "Cloudinary",
-              "Vercel",
-              "Nginx",
-              "Jest",
-              "Swagger",
-              "Material UI",
-              "React Query",
-              "Helmet.js",
-            ].map((t) => (
-              <span
-                key={t}
-                className="text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1.5 rounded-full hover:border-violet-400/40 hover:text-violet-300 transition-all cursor-default"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -754,7 +724,10 @@ function Contact() {
     setTimeout(() => setSent(false), 3000);
     setForm({ name: "", email: "", message: "" });
   };
-
+  const socialLinks = [
+    { label: "GitHub", url: "https://github.com/viveklagshetti" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/vivek-lagshetti/" },
+  ].filter((item) => item.url && item.url.trim() !== "");
   return (
     <section id="contact" className="py-24 px-6 relative">
       <div className="max-w-4xl mx-auto">
@@ -773,9 +746,9 @@ function Contact() {
               {
                 icon: "📧",
                 label: "Email",
-                value: "vivek.lagshetti.dev@gmail.com",
+                value: "lagshettivivek@gmail.com",
               },
-              { icon: "💼", label: "LinkedIn", value: "/in/viveklagshettidev" },
+              { icon: "💼", label: "LinkedIn", value: "/in/vivek-lagshetti/" },
               {
                 icon: "🐙",
                 label: "GitHub",
@@ -784,7 +757,7 @@ function Contact() {
               {
                 icon: "📍",
                 label: "Location",
-                value: "Mumbai, India (Remote OK)",
+                value: "Solapur, India (Remote OK)",
               },
             ].map(({ icon, label, value }) => (
               <div key={label} className="flex items-start gap-3">
@@ -798,14 +771,17 @@ function Contact() {
 
             <div className="pt-4">
               <p className="text-gray-500 text-xs mb-3 font-mono">// Social</p>
-              <div className="flex gap-3">
-                {["Twitter", "GitHub", "LinkedIn"].map((s) => (
+
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map(({ label, url }) => (
                   <a
-                    key={s}
-                    href="#"
+                    key={label}
+                    href={url.startsWith("http") ? url : `https://${url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-xs border border-white/10 text-gray-400 hover:border-emerald-500/50 hover:text-emerald-400 px-3 py-2 rounded-lg transition-all"
                   >
-                    {s}
+                    {label}
                   </a>
                 ))}
               </div>
