@@ -714,20 +714,47 @@ function Projects() {
 }
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
+const SHEET_URL =
+  "https://script.google.com/macros/s/AKfycbwKtvmBx-jFlK3WsaSeSBWpaIpOeMf0G4-ZfzVplkcFmxi7LeChwgor1rs5OrHRqV4s/exec";
+
 function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handle = (e) => {
+  const handle = async (e) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
-    setForm({ name: "", email: "", message: "" });
+    setLoading(true);
+    setError(false);
+
+    const body = new URLSearchParams();
+    body.append("name", form.name);
+    body.append("email", form.email);
+    body.append("message", form.message);
+
+    try {
+      await fetch(SHEET_URL, {
+        method: "POST",
+        mode: "no-cors", // required, Apps Script doesn't send CORS headers
+        body,
+      });
+      setSent(true);
+      setForm({ name: "", email: "", message: "" });
+      setTimeout(() => setSent(false), 3000);
+    } catch (err) {
+      setError(true);
+      setTimeout(() => setError(false), 3000);
+    } finally {
+      setLoading(false);
+    }
   };
+
   const socialLinks = [
     { label: "GitHub", url: "https://github.com/viveklagshetti" },
     { label: "LinkedIn", url: "https://www.linkedin.com/in/vivek-lagshetti/" },
   ].filter((item) => item.url && item.url.trim() !== "");
+
   return (
     <section id="contact" className="py-24 px-6 relative">
       <div className="max-w-4xl mx-auto">
@@ -826,13 +853,22 @@ function Contact() {
             </div>
             <button
               type="submit"
-              className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
+              disabled={loading}
+              className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed ${
                 sent
                   ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/50"
-                  : "bg-gradient-to-r from-emerald-500 to-emerald-400 text-black hover:opacity-90 hover:shadow-xl hover:shadow-emerald-500/30"
+                  : error
+                    ? "bg-red-500/20 text-red-400 border border-red-500/50"
+                    : "bg-gradient-to-r from-emerald-500 to-emerald-400 text-black hover:opacity-90 hover:shadow-xl hover:shadow-emerald-500/30"
               }`}
             >
-              {sent ? "✓ Message Sent!" : "Send Message →"}
+              {loading
+                ? "Sending..."
+                : sent
+                  ? "✓ Message Sent!"
+                  : error
+                    ? "Something went wrong"
+                    : "Send Message →"}
             </button>
           </form>
         </div>
@@ -841,7 +877,6 @@ function Contact() {
   );
 }
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
 function Footer() {
   return (
     <footer className="border-t border-white/5 py-8 px-6 text-center">
